@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -11,6 +12,7 @@ public class test_connect {
        Connection conn = null;
        Statement stmt = null;
        ResultSet rs = null;
+       PreparedStatement pst = null;
        
        try{
            String url = "jdbc:mysql://localhost:3306/shoppingcart";
@@ -18,7 +20,7 @@ public class test_connect {
            conn = DriverManager.getConnection (url,"root","");
            System.out.println ("Database connection established");
            
-           //Execute a query
+           //Execute a SELECT query
            stmt = conn.createStatement();
            String sql;
            sql = "SELECT id, name, description, price FROM Item";
@@ -37,6 +39,17 @@ public class test_connect {
                System.out.print(", description: " + description);
                System.out.println(", price: " + price);
             }
+           
+           //Execute a INSERT query
+           String new_name = "Notebood";
+           String new_description = "This is a macbooc";
+           float new_price = 1399;
+           
+           pst = conn.prepareStatement("INSERT INTO Item(name, description, price) VALUES(?, ?, ?)");
+           pst.setString(1, new_name);
+           pst.setString(2, new_description);
+           pst.setFloat(3, new_price);
+           pst.executeUpdate();
            
          //Clean-up environment
            rs.close();
