@@ -4,7 +4,7 @@ public class User {
 	String emailAddress, billingAddress, shippingAddress;
 	long creditNum;
 
-	public User() {
+	public User(int userID) {
 		//pull from the database
 	}
 

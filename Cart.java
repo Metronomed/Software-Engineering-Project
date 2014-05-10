@@ -41,7 +41,12 @@ public class Cart {
 
 	public boolean changeQuantity(int itemID, int quantity) {
 		try {
-			contents.put(itemID, quantity);
+			if (quantity <= 0) {
+				contents.remove(itemID);
+			}
+			else {
+				contents.put(itemID, quantity);
+			}
 			return true;
 		}
 		catch (Exception e) {
@@ -67,7 +72,7 @@ public class Cart {
 		return cost * discount;
 	}
 
-	public boolean checkout() {
+	public Order checkout() {
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
 			int itemID = entry.getKey();
 
@@ -76,7 +81,9 @@ public class Cart {
 			checkedOutPrices.put(itemID, itemPrice);
 		}
 		isCheckedOut = true;
-		return true;
+		generateInvoice();
+		Order generatedOrder = new Order(this);
+		return generatedOrder;
 	}
 
 	public boolean addCoupon(Coupon tryCoupon) {
@@ -87,11 +94,15 @@ public class Cart {
 		return false;
 	}
 
+	public String viewCart() {
+		return "";
+	}
+
 	public String generateInvoice() {
 		if (!isCheckedOut) {
 			return null;
 		}
-		String invoice = "";
+		String invoice = "invoice";
 
 		return invoice;
 	}

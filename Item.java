@@ -10,4 +10,11 @@ public class Item {
 	public double getPrice() {
 		return price;
 	}
+
+	public String viewItem() {
+		String view = "Item name: " + name + "\n";
+		view = view + "Description: " + description + "\n";
+		view = view + "Price: $" + Double.toString(price);
+		return view;
+	}
 }

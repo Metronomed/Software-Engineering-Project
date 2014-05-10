@@ -3,8 +3,13 @@ public class Coupon {
 	String code;
 	double discount;
 
+	public Coupon(String code) {
+		this.code = code;
+	}
+
 	public boolean isValid() {
-		//connect to database to check?
+		//connect to database to check?, set 
+		discount = 0.8;
 		return true;
 	}
 
