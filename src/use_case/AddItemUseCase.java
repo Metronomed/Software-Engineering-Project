@@ -22,10 +22,13 @@ public class AddItemUseCase {
 		System.out.println(notebook.printDescriptor());
 		System.out.println(usb.printDescriptor());
 		System.out.println(testCart.printCart());
+		
+		System.out.println("Adding an item with quantity");
 		testCart.addItem(pen.getID(), 5);
-		testCart.addItem(notebook.getID(), 1);
-
 		System.out.println(testCart.printCart());
+
+		System.out.println("Adding more items");
+		testCart.addItem(notebook.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
 
 		System.out.println(testCart.printCart());

@@ -27,7 +27,8 @@ public class AddCouponUseCase {
 		testCart.addItem(usb.getID(), 20);
 		System.out.println(testCart.printCart());
 
-		System.out.println(testCart.addCoupon("DISCOUNT20"));
+		System.out.println("Trying to add coupon");
+		testCart.addCoupon("DISCOUNT20");
 		System.out.println(testCart.printCart());		
 	}
 }

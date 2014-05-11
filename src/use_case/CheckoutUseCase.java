@@ -26,7 +26,7 @@ public class CheckoutUseCase {
 		testCart.addItem(keyboard.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
 
-		System.out.println(testCart.addCoupon("DISCOUNT20"));
+		System.out.println(testCart.addCoupon("DISCOUNT20 coupon"));
 		System.out.println(testCart.printCart());
 
 		System.out.println("Go through checkout now\n");

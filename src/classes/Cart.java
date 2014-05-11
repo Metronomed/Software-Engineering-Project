@@ -9,12 +9,11 @@ import java.sql.SQLException;
 
 public class Cart {
 	private int id;
-	User user;
+	private User user;
 	private Map<Integer, Integer> contents;
-	Coupon coupon;
+	private Coupon coupon;
 	private boolean checkedOut;
 	private Map<Integer, Double> checkedOutPrices;
-//	private double totalAmount;
 	private String invoice;
 
 	//if user has cart that is not checked out, should load that cart instead
@@ -27,6 +26,7 @@ public class Cart {
 		checkedOut = false;
 		user = new User(userID);
 		this.id = MysqlConnect.insertCart(userID);
+		invoice = "";
 	}
 	
 	private void update() throws Exception{
@@ -36,8 +36,8 @@ public class Cart {
 
 	public boolean addItem(int itemID, int quantity) {
 		try {
-			if (checkedOut) {
-				throw new Exception();
+			if (checkedOut || quantity <= 0) {
+				return false;
 			}
 			contents.put(itemID, quantity);
 			update();
@@ -52,7 +52,7 @@ public class Cart {
 	public boolean removeItem(int itemID) {
 		try {
 			if (checkedOut) {
-				throw new Exception();
+				return false;
 			}
 			contents.remove(itemID);
 			update();
@@ -66,15 +66,14 @@ public class Cart {
 
 	public boolean changeQuantity(int itemID, int quantity) {
 		try {
-			if (checkedOut) {
-				throw new Exception();	
+			if (checkedOut || quantity < 0) {
+				return false;	
 			}
 			if (quantity == 0) {
 				removeItem(itemID);
 			}
 			else {
-				contents.put(itemID, quantity);
-				update();
+				addItem(itemID, quantity);
 			}
 			return true;
 		}
@@ -102,6 +101,9 @@ public class Cart {
 	}
 
 	public Order checkout() throws Exception {
+		if (checkedOut) {
+			throw new Exception();
+		}
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
 			int itemID = entry.getKey();
 
@@ -109,19 +111,21 @@ public class Cart {
 			double itemPrice = currItem.getPrice();
 			checkedOutPrices.put(itemID, itemPrice);
 		}
-		checkedOut = true;
+
 		generateInvoice();
+		checkedOut = true;
 		return new Order(this);
 	}
 
 	public boolean addCoupon(String tryCoupon) throws Exception {
-		System.out.println("Try to add coupon");
+		if (checkedOut) {
+			return false;
+		}
 		MysqlConnect mc = new MysqlConnect();
 		ResultSet rs = mc.selectAllFrom( "Coupon");
 		while(rs.next()){
 			int couponID = rs.getInt("id");
 			String code = rs.getString("code");
-			System.out.println(code);
 			double discount = rs.getDouble("discount");
 			if (tryCoupon.equals(code)){
 				coupon = new Coupon(couponID, code, discount);
@@ -133,6 +137,9 @@ public class Cart {
 	}
 
 	public String printCart() throws SQLException {
+		if (checkedOut) {
+			return null;
+		}
 		StringBuffer output = new StringBuffer();
 		output.append("Cart:\n");
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
@@ -147,16 +154,17 @@ public class Cart {
 			output.append(itemPrice);
 			output.append("\n");
 		}
-		output.append("Total Amount: $");
+		if (coupon != null) {
+			output.append("\nApplied Coupon: ");
+			output.append(coupon.getCode());
+		}
+		output.append("\nTotal Amount: $");
 		output.append(this.calculateCost());
 		output.append("\n");
 		return output.toString();
 	}
 
 	private void generateInvoice() throws Exception {
-		if (!checkedOut) {
-			return;
-		}
 		StringBuffer inv = new StringBuffer();
 		double total = 0.0;
 		inv.append("INVOICE:\n");
@@ -193,6 +201,9 @@ public class Cart {
 	}
 	
 	public String viewInvoice() {
+		if (!checkedOut) {
+			return "";
+		}
 		return this.invoice;
 	}
 
@@ -232,7 +243,7 @@ public class Cart {
 	public int getCouponID(){
 		if (coupon != null){
 			return coupon.getID();
-		}else{
+		} else {
 			return 0;
 		}
 	}
