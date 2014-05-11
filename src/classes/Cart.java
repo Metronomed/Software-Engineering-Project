@@ -77,8 +77,8 @@ public class Cart {
 			int itemID = entry.getKey();
 			int quantity = entry.getValue();
 
-			//lookup item cost
-			double itemPrice = 1.0;
+			Item currItem = new Item(itemID);
+			double itemPrice = currItem.getPrice();
 			cost += itemPrice * quantity;
 		}
 		double discount = 1.0;
@@ -92,8 +92,8 @@ public class Cart {
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
 			int itemID = entry.getKey();
 
-			//lookup item cost
-			double itemPrice = 1.0;
+			Item currItem = new Item(itemID);
+			double itemPrice = currItem.getPrice();
 			checkedOutPrices.put(itemID, itemPrice);
 		}
 		checkedOut = true;
@@ -106,6 +106,17 @@ public class Cart {
 			return true;
 		}
 		return false;
+	}
+
+	public String printCart() {
+		StringBuffer output = "";
+		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
+			int itemID = entry.getKey();
+			Item currItem = new Item(itemID);
+			double itemPrice = currItem.getPrice();
+			output.append("Item: ")
+		}
+		return output.toString();
 	}
 
 	public String generateInvoice() {
