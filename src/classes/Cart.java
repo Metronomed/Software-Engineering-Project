@@ -40,6 +40,7 @@ public class Cart {
 				throw new Exception();
 			}
 			contents.put(itemID, quantity);
+			update();
 			return true;
 		}
 		catch (Exception e) {
@@ -54,6 +55,7 @@ public class Cart {
 				throw new Exception();
 			}
 			contents.remove(itemID);
+			update();
 			return true;
 		}
 		catch (Exception e) {
@@ -68,6 +70,7 @@ public class Cart {
 				throw new Exception();	
 			}
 			contents.put(itemID, quantity);
+			update();
 			return true;
 		}
 		catch (Exception e) {
@@ -115,6 +118,7 @@ public class Cart {
 			double discount = rs.getDouble("discount");
 			if (tryCoupon.equals(code)){
 				coupon = new Coupon(couponID, code, discount);
+				update();
 				return true;
 			}
 		}
@@ -178,6 +182,7 @@ public class Cart {
 		inv.append(user.getBillingAddress());
 		inv.append("\n\n");
 		invoice = inv.toString();
+		update();
 	}
 	
 	public String viewInvoice() {
