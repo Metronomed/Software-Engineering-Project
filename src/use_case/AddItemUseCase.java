@@ -28,7 +28,7 @@ public class AddItemUseCase {
 		testCart.addItem(notebook.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
 
-
+		System.out.println(testCart.printCart());
 
 	}
 }

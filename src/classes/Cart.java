@@ -3,6 +3,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import lib.MysqlConnect;
+import java.sql.SQLException;
 
 public class Cart {
 	public int id;
@@ -71,7 +72,7 @@ public class Cart {
 		}
 	}
 
-	public double calculateCost() {
+	public double calculateCost() throws SQLException {
 		double cost = 0.0;
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
 			int itemID = entry.getKey();
@@ -88,7 +89,7 @@ public class Cart {
 		return cost * discount;
 	}
 
-	public boolean checkout() {
+	public boolean checkout() throws SQLException {
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
 			int itemID = entry.getKey();
 
@@ -108,13 +109,20 @@ public class Cart {
 		return false;
 	}
 
-	public String printCart() {
-		StringBuffer output = "";
+	public String printCart() throws SQLException {
+		StringBuffer output = new StringBuffer();
+		output.append("Cart:\n");
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
 			int itemID = entry.getKey();
 			Item currItem = new Item(itemID);
 			double itemPrice = currItem.getPrice();
-			output.append("Item: ")
+			output.append("Item: ");
+			output.append(currItem.getName());
+			output.append(", Quantity: ");
+			output.append(entry.getValue());
+			output.append(" @ $");
+			output.append(itemPrice);
+			output.append("\n");
 		}
 		return output.toString();
 	}
