@@ -13,7 +13,7 @@ public class Order {
 
 	public Order(Cart cart) throws Exception {
 		this.cart = cart;
-		int trackNumLength = 10;
+		int trackNumLength = 20;
 		String validChars = "ABCDEFGHIJKLMNOPQRSTUVQXYZ0123456789";
 		StringBuffer tn = new StringBuffer();
 		int charLength = validChars.length();

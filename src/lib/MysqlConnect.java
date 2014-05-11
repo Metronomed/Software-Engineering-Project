@@ -79,7 +79,7 @@ public class MysqlConnect {
 	
 	public static int insertOrder(int cartID, String trackingNum, String orderstamp) throws Exception{
 		PreparedStatement pst = null;
-		pst = conn.prepareStatement("INSERT INTO Order(cartID, trackingNum, orderstamp)" +
+		pst = conn.prepareStatement("INSERT INTO Orders(cartID, trackingNum, orderstamp)" +
 				" VALUES(?, ?, ?)");
 		pst.setInt(1, cartID);
 		pst.setString(2, trackingNum);
@@ -91,7 +91,7 @@ public class MysqlConnect {
 		ResultSet rs = null;
 		stmt = conn.createStatement();
         String sql;
-        sql = "SELECT MAX(id) FROM Order";
+        sql = "SELECT MAX(id) FROM Orders";
         rs = stmt.executeQuery(sql);
         
         rs.next();
