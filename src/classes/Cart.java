@@ -3,6 +3,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import lib.MysqlConnect;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Cart {
@@ -19,18 +21,18 @@ public class Cart {
 
 	public Cart(int userID) throws Exception {
 		//use database to load user
-
 		contents = new HashMap<Integer, Integer>();
+		coupon = null;
 		checkedOutPrices = new HashMap<Integer, Double>();
 		checkedOut = false;
 		user = new User(userID);
 		this.id = MysqlConnect.insertCart(userID);
 	}
 	
-//	private void update() throws Exception{
-//		MysqlConnect.updateCart(this);
-//		
-//	}
+	private void update() throws Exception{
+		MysqlConnect.updateCart(this);
+		
+	}
 
 	public boolean addItem(int itemID, int quantity) {
 		try {
@@ -104,10 +106,17 @@ public class Cart {
 		return new Order(this);
 	}
 
-	public boolean addCoupon(Coupon tryCoupon) {
-		if (true) {
-			coupon = tryCoupon;
-			return true;
+	public boolean addCoupon(String tryCoupon) throws Exception {
+		MysqlConnect mc = new MysqlConnect();
+		ResultSet rs = mc.selectFromId(id, "Coupon");
+		while(rs.next()){
+			int couponID = rs.getInt("id");
+			String code = rs.getString("code");
+			double discount = rs.getDouble("discount");
+			if (tryCoupon.equals(code)){
+				coupon = new Coupon(couponID, code, discount);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -195,6 +204,32 @@ public class Cart {
 	}
 	
 	public String getContents(){
-		return "";
+		StringBuffer contentsAsStringBuffer = new StringBuffer();
+		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
+			int itemID = entry.getKey();
+			int quantity = entry.getValue();
+			contentsAsStringBuffer.append(itemID);
+			contentsAsStringBuffer.append(":");
+			contentsAsStringBuffer.append(quantity);
+			contentsAsStringBuffer.append(", ");
+		}
+		String contentsAsString = contentsAsStringBuffer.toString();
+		return contentsAsString;
+	}
+	
+	public int getCouponID(){
+		if (coupon != null){
+			return coupon.getID();
+		}else{
+			return 0;
+		}
+	}
+	
+	public int isCheckedOut(){
+		if(checkedOut){
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 }
