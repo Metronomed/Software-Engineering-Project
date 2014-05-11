@@ -18,9 +18,9 @@ public class AddCouponUseCase {
 
 		Cart testCart = new Cart(2);
 
-		System.out.println(pen.printDescriptor());
-		System.out.println(notebook.printDescriptor());
-		System.out.println(usb.printDescriptor());
+		// System.out.println(pen.printDescriptor());
+		// System.out.println(notebook.printDescriptor());
+		// System.out.println(usb.printDescriptor());
 
 		testCart.addItem(pen.getID(), 5);
 		testCart.addItem(notebook.getID(), 1);
