@@ -30,9 +30,22 @@ public class MysqlConnect {
 	
 	
 	public ResultSet selectFromId(int id, String table){
-		
         String sql;
         sql = "SELECT * FROM "+table+" WHERE id = '" + id +"'";
+        ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return rs;
+	}
+	
+	public ResultSet selectAllFrom(String table){
+        String sql;
+        sql = "SELECT * FROM "+table;
         ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery(sql);

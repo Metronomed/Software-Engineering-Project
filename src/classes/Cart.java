@@ -117,7 +117,7 @@ public class Cart {
 	public boolean addCoupon(String tryCoupon) throws Exception {
 		System.out.println("Try to add coupon");
 		MysqlConnect mc = new MysqlConnect();
-		ResultSet rs = mc.selectFromId(id, "Coupon");
+		ResultSet rs = mc.selectAllFrom( "Coupon");
 		while(rs.next()){
 			int couponID = rs.getInt("id");
 			String code = rs.getString("code");
