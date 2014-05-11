@@ -77,13 +77,14 @@ public class MysqlConnect {
         return rs.getInt("MAX(id)");
 	}
 	
-	public static int insertOrder(int cartID, String trackingNum, Timestamp orderstamp) throws Exception{
+	public static int insertOrder(int cartID, String trackingNum, String orderstamp) throws Exception{
 		PreparedStatement pst = null;
 		pst = conn.prepareStatement("INSERT INTO Order(cartID, trackingNum, orderstamp)" +
 				" VALUES(?, ?, ?)");
 		pst.setInt(1, cartID);
 		pst.setString(2, trackingNum);
-		pst.setTimestamp(3, orderstamp);
+		pst.setString(3, orderstamp);
+		System.out.println(pst.toString());
 		pst.executeUpdate();
 		
 		Statement stmt = null;
