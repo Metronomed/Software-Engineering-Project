@@ -96,7 +96,7 @@ public class Cart {
 		return cost * discount;
 	}
 
-	public Order checkout() throws SQLException {
+	public Order checkout() throws Exception {
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
 			int itemID = entry.getKey();
 
@@ -146,7 +146,7 @@ public class Cart {
 		return output.toString();
 	}
 
-	private void generateInvoice() throws SQLException {
+	private void generateInvoice() throws Exception {
 		if (!checkedOut) {
 			return;
 		}
