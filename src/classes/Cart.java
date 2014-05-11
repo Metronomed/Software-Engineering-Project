@@ -26,10 +26,10 @@ public class Cart {
 		this.id = MysqlConnect.insertCart(userID);
 	}
 	
-	private void update() throws Exception{
-		MysqlConnect.updateCart(this);
-		
-	}
+//	private void update() throws Exception{
+//		MysqlConnect.updateCart(this);
+//		
+//	}
 
 	public boolean addItem(int itemID, int quantity) {
 		try {
