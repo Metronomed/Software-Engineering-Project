@@ -8,10 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import classes.Cart;
+
 public class MysqlConnect {
 	static Connection conn = null;
-    static Statement stmt = null;
-    static ResultSet rs = null;
+    Statement stmt = null;
+    ResultSet rs = null;
     PreparedStatement pst = null;
 	
 	public MysqlConnect(){
@@ -71,6 +73,8 @@ public class MysqlConnect {
 		pst.setString(3, "");
 		pst.executeUpdate();
 		
+		Statement stmt = null;
+		ResultSet rs = null;
 		stmt = conn.createStatement();
         String sql;
         sql = "SELECT MAX(id) FROM Cart";
@@ -80,17 +84,15 @@ public class MysqlConnect {
         return rs.getInt("MAX(id)");
 	}
 	
-	public static void update(Object object) throws Exception{
-		if(object.getClass().getName() == "classes.Cart"){
-			for (Field field : object.getClass().getDeclaredFields()) {
-			    field.setAccessible(true);
-			    String name = field.getName();
-			    Object value = field.get(object);
-			    System.out.printf("Field name: %s, Field value: %s%n", name, value);
-			}
-		}else{
-			//Will not allow to update other tables
-		}
+	public static void updateCart(Cart cart) throws Exception{
+		PreparedStatement pst = null;
+		pst = conn.prepareStatement("UPDATE Cart SET contents=?, couponID=?" +
+				"checkedOut=?, nvoice=? WHERE id=?");
+        pst.setString(1, cart.getContents());
+        pst.setInt(2, cart.getCouponID());
+        pst.setInt(3, cart.isCheckedOut());
+        pst.setString(4, cart.viewInvoice());
+        pst.setInt(5, cart.getID());
 	}
 	
 	public static void main(String[] args){
