@@ -9,6 +9,6 @@ public class Order {
 	}
 
 	public String viewInvoice() {
-		return cart.generateInvoice();
+		return cart.viewInvoice();
 	}
 }

@@ -3,9 +3,8 @@ import java.sql.SQLException;
 
 import lib.MysqlConnect;
 
-import classes.Item;
-import classes.User;
-import classes.Cart;
+import classes.*;
+
 
 
 public class AddItemUseCase {
@@ -31,8 +30,8 @@ public class AddItemUseCase {
 		testCart.addItem(usb.getID(), 20);
 
 		System.out.println(testCart.printCart());
-		
-		testCart.checkout();
-		System.out.println(testCart.getTotalAmount());
+
+		Order myOrder = testCart.checkout();
+		System.out.println(myOrder.viewInvoice());
 	}
 }

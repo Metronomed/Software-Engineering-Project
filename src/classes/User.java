@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import lib.MysqlConnect;
 
 public class User {
-	public int id;
-	public String name;
+	private int id;
+	private String name;
 	private String emailAdd, billingAdd, shippingAdd;
 	private String creditNum;
 
@@ -56,6 +56,14 @@ public class User {
 
 	public void setCreditNum(String creditNum) {
 		this.creditNum = creditNum;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getID() {
+		return id;
 	}
 
 

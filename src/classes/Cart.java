@@ -19,10 +19,11 @@ public class Cart {
 
 	public Cart(int userID) throws Exception {
 		//use database to load user
+
 		contents = new HashMap<Integer, Integer>();
 		checkedOutPrices = new HashMap<Integer, Double>();
 		checkedOut = false;
-		
+		user = new User(userID);
 		this.id = MysqlConnect.insertCart(userID);
 	}
 	
@@ -90,7 +91,7 @@ public class Cart {
 		return cost * discount;
 	}
 
-	public boolean checkout() throws SQLException {
+	public Order checkout() throws SQLException {
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
 			int itemID = entry.getKey();
 
@@ -99,7 +100,8 @@ public class Cart {
 			checkedOutPrices.put(itemID, itemPrice);
 		}
 		checkedOut = true;
-		return true;
+		generateInvoice();
+		return new Order(this);
 	}
 
 	public boolean addCoupon(Coupon tryCoupon) {
@@ -131,20 +133,53 @@ public class Cart {
 		return output.toString();
 	}
 
-	public String generateInvoice() {
+	private void generateInvoice() throws SQLException {
 		if (!checkedOut) {
-			return null;
+			return;
 		}
-		String invoice = "";
-
-		return invoice;
+		StringBuffer inv = new StringBuffer();
+		double total = 0.0;
+		inv.append("INVOICE:\n");
+		inv.append("Purchaser: ");
+		inv.append(user.getName());
+		inv.append("\nShipping Address: \n");
+		inv.append(user.getShippingAddress());
+		inv.append("\n\nItems Ordered: \n");
+		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
+			int itemID = entry.getKey();
+			int quantity = entry.getValue();
+			double itemPrice = checkedOutPrices.get(itemID);
+			Item currItem = new Item(itemID);
+			total += quantity * itemPrice;
+			inv.append("Item: ");
+			inv.append(currItem.getName());
+			inv.append(", Quantity: ");
+			inv.append(entry.getValue());
+			inv.append(" @ $");
+			inv.append(itemPrice);
+			inv.append("\n");
+		}
+		if (coupon != null) {
+			inv.append("Applied Coupon: ");
+			inv.append(coupon.getDiscount());
+		}
+		inv.append("\nTotal Amount: $");
+		inv.append(getTotalAmount());
+		inv.append("\n\nBilling Address: \n");
+		inv.append(user.getBillingAddress());
+		inv.append("\n\n");
+		invoice = inv.toString();
 	}
 	
+	public String viewInvoice() {
+		return this.invoice;
+	}
+
 	public int getID() {
 		return id;
 	}
 	
-	public double getTotalAmount(){
+	private double getTotalAmount(){
 		double total = 0.0;
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
 			int itemID = entry.getKey();
@@ -152,7 +187,11 @@ public class Cart {
 			double itemPrice = checkedOutPrices.get(itemID);
 			total += quantity * itemPrice;
 		}
-		return total;
+		double discount = 1.0;
+		if (coupon != null) {
+			discount = coupon.getDiscount();
+		}
+		return total * discount;
 	}
 	
 	public String getContents(){
