@@ -13,6 +13,8 @@ public class Cart {
 	Map<Integer, Double> checkedOutPrices;
 	String invoice;
 
+	//if user has cart that is not checked out, should load that cart instead
+
 	public Cart(int userID) throws Exception {
 		//use database to load user
 		contents = new HashMap<Integer, Integer>();
@@ -58,7 +60,7 @@ public class Cart {
 	public boolean changeQuantity(int itemID, int quantity) {
 		try {
 			if (checkedOut) {
-				throw new Exception();
+				throw new Exception();	
 			}
 			contents.put(itemID, quantity);
 			return true;

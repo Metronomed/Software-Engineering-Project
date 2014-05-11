@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import lib.MysqlConnect;
 
 public class Item {
-	public int id;
-	public String name;
-	public String description;
-	public double price;
+	private int id;
+	private String name;
+	private String description;
+	private double price;
 	
 	public Item(int id) throws SQLException {
 		//pull from database
@@ -29,4 +29,9 @@ public class Item {
 	public double getPrice() {
 		return price;
 	}
+
+	public int getID() {
+		return id;
+	}
+
 }
