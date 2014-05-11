@@ -6,13 +6,14 @@ import lib.MysqlConnect;
 import java.sql.SQLException;
 
 public class Cart {
-	public int id;
+	private int id;
 	User user;
-	Map<Integer, Integer> contents;
+	private Map<Integer, Integer> contents;
 	Coupon coupon;
-	boolean checkedOut;
-	Map<Integer, Double> checkedOutPrices;
-	String invoice;
+	private boolean checkedOut;
+	private Map<Integer, Double> checkedOutPrices;
+//	private double totalAmount;
+	private String invoice;
 
 	//if user has cart that is not checked out, should load that cart instead
 
@@ -26,7 +27,7 @@ public class Cart {
 	}
 	
 	private void update() throws Exception{
-		MysqlConnect.update(this);
+		MysqlConnect.updateCart(this);
 		
 	}
 
@@ -134,5 +135,17 @@ public class Cart {
 		String invoice = "";
 
 		return invoice;
+	}
+	
+	public int getID() {
+		return id;
+	}
+	
+//	public double getTotalAmount(){
+//		return totalAmount;
+//	}
+	
+	public String getContents(){
+		return "";
 	}
 }
