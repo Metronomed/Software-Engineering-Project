@@ -187,7 +187,7 @@ public class Cart {
 		inv.append(getTotalAmount());
 		inv.append("\n\nBilling Address: \n");
 		inv.append(user.getBillingAddress());
-		inv.append("\n\n");
+		inv.append("\n");
 		invoice = inv.toString();
 		update();
 	}

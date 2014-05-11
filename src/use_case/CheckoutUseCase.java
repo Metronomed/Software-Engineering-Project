@@ -5,7 +5,7 @@ import lib.MysqlConnect;
 
 import classes.*;
 
-public class AddItemUseCase {
+public class CheckoutUseCase {
 	public static void main(String[] args) throws Exception { 
 		Item pen = new Item(1);
 		Item kindle = new Item(2);
@@ -21,13 +21,16 @@ public class AddItemUseCase {
 		System.out.println(pen.printDescriptor());
 		System.out.println(notebook.printDescriptor());
 		System.out.println(usb.printDescriptor());
-		System.out.println(testCart.printCart());
-		testCart.addItem(pen.getID(), 5);
-		testCart.addItem(notebook.getID(), 1);
 
-		System.out.println(testCart.printCart());
+		testCart.addItem(pen.getID(), 5);
+		testCart.addItem(keyboard.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
 
+		System.out.println(testCart.addCoupon("DISCOUNT20"));
 		System.out.println(testCart.printCart());
+
+		System.out.println("Go through checkout now\n");
+		Order myOrder = testCart.checkout();
+		System.out.println(myOrder.viewInvoice());
 	}
 }
