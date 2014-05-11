@@ -26,12 +26,8 @@ public class Order {
 		java.util.Date date= new java.util.Date();
 		Timestamp timestamp =  new Timestamp(date.getTime());
 		orderstamp = timestamp.toString();
-		System.out.println("//////");
-		System.out.println(orderstamp);
 		
 		id = MysqlConnect.insertOrder(cart.getID(), trackingNum, orderstamp);
-		System.out.println("//////");
-		System.out.println(id);
 	}
 
 	public String viewInvoice() {
