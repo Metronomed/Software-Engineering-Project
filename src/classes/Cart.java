@@ -6,6 +6,7 @@ import lib.MysqlConnect;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 public class Cart {
 	private int id;
@@ -29,6 +30,11 @@ public class Cart {
 		invoice = "";
 	}
 	
+	private String priceFormat(double price) {
+		DecimalFormat df = new DecimalFormat("##.00");
+		return df.format(price);
+	}
+
 	private void update() throws Exception{
 		MysqlConnect.updateCart(this);
 		
@@ -151,7 +157,7 @@ public class Cart {
 			output.append(", Quantity: ");
 			output.append(entry.getValue());
 			output.append(" @ $");
-			output.append(itemPrice);
+			output.append(priceFormat(itemPrice));
 			output.append("\n");
 		}
 		if (coupon != null) {
@@ -159,7 +165,7 @@ public class Cart {
 			output.append(coupon.getCode());
 		}
 		output.append("\nTotal Amount: $");
-		output.append(this.calculateCost());
+		output.append(priceFormat(calculateCost()));
 		output.append("\n");
 		return output.toString();
 	}
@@ -184,7 +190,7 @@ public class Cart {
 			inv.append(", Quantity: ");
 			inv.append(entry.getValue());
 			inv.append(" @ $");
-			inv.append(itemPrice);
+			inv.append(priceFormat(itemPrice));
 			inv.append("\n");
 		}
 		if (coupon != null) {
@@ -192,7 +198,7 @@ public class Cart {
 			inv.append(coupon.getDiscount());
 		}
 		inv.append("\nTotal Amount: $");
-		inv.append(getTotalAmount());
+		inv.append(priceFormat(getTotalAmount()));
 		inv.append("\n\nBilling Address: \n");
 		inv.append(user.getBillingAddress());
 		inv.append("\n");

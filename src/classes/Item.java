@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import lib.MysqlConnect;
+import java.text.DecimalFormat;
 
 public class Item {
 	private int id;
@@ -26,6 +27,11 @@ public class Item {
 //        conn.close();
 	}
 
+	private String priceFormat(double price) {
+		DecimalFormat df = new DecimalFormat("##.00");
+		return df.format(price);
+	}
+
 	public String printDescriptor() {
 		StringBuffer output = new StringBuffer();
 		output.append("Name: ");
@@ -33,7 +39,7 @@ public class Item {
 		output.append("\nDescription: ");
 		output.append(description);
 		output.append("\nPrice: $");
-		output.append(price);
+		output.append(priceFormat(price));
 		output.append("\n");
 		return output.toString();
 	}
