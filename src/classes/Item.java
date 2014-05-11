@@ -27,8 +27,15 @@ public class Item {
 	}
 
 	public String printDescriptor() {
-		String output = "Name: " + name + "\nDescription: " + description + "\nPrice: $" + Double.toString(price);
-		return output;
+		StringBuffer output = new StringBuffer();
+		output.append("Name: ");
+		output.append(name);
+		output.append("\nDescription: ");
+		output.append(description);
+		output.append("\nPrice: $");
+		output.append(price);
+		output.append("\n");
+		return output.toString();
 	}
 
 	public double getPrice() {

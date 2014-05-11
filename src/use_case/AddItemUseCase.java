@@ -26,9 +26,13 @@ public class AddItemUseCase {
 		System.out.println(usb.printDescriptor());
 		testCart.addItem(pen.getID(), 5);
 		testCart.addItem(notebook.getID(), 1);
+
+		System.out.println(testCart.printCart());
 		testCart.addItem(usb.getID(), 20);
 
 		System.out.println(testCart.printCart());
-
+		
+		testCart.checkout();
+		System.out.println(testCart.getTotalAmount());
 	}
 }

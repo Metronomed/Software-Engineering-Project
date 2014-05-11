@@ -84,7 +84,7 @@ public class Cart {
 			cost += itemPrice * quantity;
 		}
 		double discount = 1.0;
-		if (coupon.isValid() ) {
+		if (coupon != null && coupon.isValid() ) {
 			discount = coupon.getDiscount();
 		}
 		return cost * discount;
@@ -125,6 +125,9 @@ public class Cart {
 			output.append(itemPrice);
 			output.append("\n");
 		}
+		output.append("Total Amount: $");
+		output.append(this.calculateCost());
+		output.append("\n");
 		return output.toString();
 	}
 
@@ -141,9 +144,16 @@ public class Cart {
 		return id;
 	}
 	
-//	public double getTotalAmount(){
-//		return totalAmount;
-//	}
+	public double getTotalAmount(){
+		double total = 0.0;
+		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
+			int itemID = entry.getKey();
+			int quantity = entry.getValue();
+			double itemPrice = checkedOutPrices.get(itemID);
+			total += quantity * itemPrice;
+		}
+		return total;
+	}
 	
 	public String getContents(){
 		return "";
