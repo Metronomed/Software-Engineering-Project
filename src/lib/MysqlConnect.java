@@ -84,7 +84,6 @@ public class MysqlConnect {
 		pst.setInt(1, cartID);
 		pst.setString(2, trackingNum);
 		pst.setString(3, orderstamp);
-		System.out.println(pst.toString());
 		pst.executeUpdate();
 		
 		Statement stmt = null;
