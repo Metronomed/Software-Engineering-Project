@@ -29,6 +29,9 @@ public class Cart {
 
 	public boolean addItem(int itemID, int quantity) {
 		try {
+			if (checkedOut) {
+				throw new Exception();
+			}
 			contents.put(itemID, quantity);
 			return true;
 		}
@@ -40,6 +43,9 @@ public class Cart {
 
 	public boolean removeItem(int itemID) {
 		try {
+			if (checkedOut) {
+				throw new Exception();
+			}
 			contents.remove(itemID);
 			return true;
 		}
@@ -51,6 +57,9 @@ public class Cart {
 
 	public boolean changeQuantity(int itemID, int quantity) {
 		try {
+			if (checkedOut) {
+				throw new Exception();
+			}
 			contents.put(itemID, quantity);
 			return true;
 		}
