@@ -22,8 +22,8 @@ public class Cart {
 		this.id = MysqlConnect.insertCart(userID);
 	}
 	
-	private void update(){
-		
+	private void update() throws Exception{
+		MysqlConnect.update(this);
 		
 	}
 

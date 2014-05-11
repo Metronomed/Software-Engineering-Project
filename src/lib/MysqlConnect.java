@@ -76,10 +76,11 @@ public class MysqlConnect {
         sql = "SELECT MAX(id) FROM Cart";
         rs = stmt.executeQuery(sql);
         
-        return rs.getInt("id");
+        rs.next();
+        return rs.getInt("MAX(id)");
 	}
 	
-	public boolean update(Object object) throws Exception{
+	public static void update(Object object) throws Exception{
 		if(object.getClass().getName() == "classes.Cart"){
 			for (Field field : object.getClass().getDeclaredFields()) {
 			    field.setAccessible(true);
@@ -87,10 +88,8 @@ public class MysqlConnect {
 			    Object value = field.get(object);
 			    System.out.printf("Field name: %s, Field value: %s%n", name, value);
 			}
-			return true;
 		}else{
 			//Will not allow to update other tables
-			return false;
 		}
 	}
 	
