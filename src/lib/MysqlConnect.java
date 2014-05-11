@@ -66,7 +66,7 @@ public class MysqlConnect {
 	
 	public static int insertCart(int userID) throws Exception{
 		PreparedStatement pst = null;
-		pst = conn.prepareStatement("INSERT INTO Cart(userID, content, invoice)" +
+		pst = conn.prepareStatement("INSERT INTO Cart(userID, contents, invoice)" +
 				" VALUES(?, ?, ?)");
 		pst.setInt(1, userID);
 		pst.setString(2, "");
@@ -86,13 +86,14 @@ public class MysqlConnect {
 	
 	public static void updateCart(Cart cart) throws Exception{
 		PreparedStatement pst = null;
-		pst = conn.prepareStatement("UPDATE Cart SET contents=?, couponID=?" +
-				"checkedOut=?, nvoice=? WHERE id=?");
+		pst = conn.prepareStatement("UPDATE Cart SET contents=?, couponID=?," +
+				"checkedOut=?, invoice=? WHERE id=?");
         pst.setString(1, cart.getContents());
         pst.setInt(2, cart.getCouponID());
         pst.setInt(3, cart.isCheckedOut());
         pst.setString(4, cart.viewInvoice());
         pst.setInt(5, cart.getID());
+        pst.executeUpdate();
 	}
 	
 	public static void main(String[] args){

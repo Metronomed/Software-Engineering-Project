@@ -20,13 +20,13 @@ public class UseCase1 {
         
         User user_1 = new User(1);
         
-        System.out.print("ID: " + user_1.id);
-        System.out.print(", name: " + user_1.name);
-        System.out.print(", Billing Address: " + user_1.getBillingAddress());
-        System.out.println(", credit: " + user_1.getCreditNum());
-        
-        Cart cart_1 = new Cart(user_1.id);
-        System.out.print("Cart ID: " + cart_1.id);
+//        System.out.print("ID: " + user_1.id);
+//        System.out.print(", name: " + user_1.name);
+//        System.out.print(", Billing Address: " + user_1.getBillingAddress());
+//        System.out.println(", credit: " + user_1.getCreditNum());
+//        
+//        Cart cart_1 = new Cart(user_1.id);
+//        System.out.print("Cart ID: " + cart_1.id);
 //        MysqlConnect mc = new MysqlConnect();
 //        mc.insert(cart_1);
 	}

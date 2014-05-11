@@ -25,7 +25,7 @@ public class RemoveItemUseCase {
 		testCart.addItem(notebook.getID(), 1);
 
 		System.out.println(testCart.printCart());
-		testCart.removeItem(usb.getID(), 20);
+//		testCart.removeItem(usb.getID(), 20);
 
 		System.out.println(testCart.printCart());
 
