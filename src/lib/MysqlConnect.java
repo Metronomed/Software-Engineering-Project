@@ -1,12 +1,12 @@
 package lib;
 
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import classes.Cart;
 
@@ -57,26 +57,6 @@ public class MysqlConnect {
         return rs;
 	}
 	
-	public boolean insert(Object object) throws Exception{
-		if(object.getClass().getName() == "classes.Cart"){
-			
-			for (Field field : object.getClass().getDeclaredFields()) {
-			    field.setAccessible(true);
-			    String name = field.getName();
-			    Object value = field.get(object);
-			    System.out.printf("Field name: %s, Field value: %s%n", name, value);
-			}
-			
-			return true;
-		}else if(object.getClass().getName() == "classes.Order"){
-			
-			return true;
-		}else{
-			
-			return false;
-		}
-	}
-	
 	public static int insertCart(int userID) throws Exception{
 		PreparedStatement pst = null;
 		pst = conn.prepareStatement("INSERT INTO Cart(userID, contents, invoice)" +
@@ -91,6 +71,26 @@ public class MysqlConnect {
 		stmt = conn.createStatement();
         String sql;
         sql = "SELECT MAX(id) FROM Cart";
+        rs = stmt.executeQuery(sql);
+        
+        rs.next();
+        return rs.getInt("MAX(id)");
+	}
+	
+	public static int insertOrder(int cartID, String trackingNum, Timestamp orderstamp) throws Exception{
+		PreparedStatement pst = null;
+		pst = conn.prepareStatement("INSERT INTO Order(cartID, trackingNum, orderstamp)" +
+				" VALUES(?, ?, ?)");
+		pst.setInt(1, cartID);
+		pst.setString(2, trackingNum);
+		pst.setTimestamp(3, orderstamp);
+		pst.executeUpdate();
+		
+		Statement stmt = null;
+		ResultSet rs = null;
+		stmt = conn.createStatement();
+        String sql;
+        sql = "SELECT MAX(id) FROM Order";
         rs = stmt.executeQuery(sql);
         
         rs.next();
