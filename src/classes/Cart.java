@@ -69,8 +69,13 @@ public class Cart {
 			if (checkedOut) {
 				throw new Exception();	
 			}
-			contents.put(itemID, quantity);
-			update();
+			if (quantity == 0) {
+				removeItem(itemID);
+			}
+			else {
+				contents.put(itemID, quantity);
+				update();
+			}
 			return true;
 		}
 		catch (Exception e) {
@@ -110,11 +115,13 @@ public class Cart {
 	}
 
 	public boolean addCoupon(String tryCoupon) throws Exception {
+		System.out.println("Try to add coupon");
 		MysqlConnect mc = new MysqlConnect();
 		ResultSet rs = mc.selectFromId(id, "Coupon");
 		while(rs.next()){
 			int couponID = rs.getInt("id");
 			String code = rs.getString("code");
+			System.out.println(code);
 			double discount = rs.getDouble("discount");
 			if (tryCoupon.equals(code)){
 				coupon = new Coupon(couponID, code, discount);

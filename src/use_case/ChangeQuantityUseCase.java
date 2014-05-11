@@ -5,7 +5,7 @@ import lib.MysqlConnect;
 
 import classes.*;
 
-public class AddItemUseCase {
+public class ChangeQuantityUseCase {
 	public static void main(String[] args) throws Exception { 
 		Item pen = new Item(1);
 		Item kindle = new Item(2);
@@ -21,16 +21,16 @@ public class AddItemUseCase {
 		System.out.println(pen.printDescriptor());
 		System.out.println(notebook.printDescriptor());
 		System.out.println(usb.printDescriptor());
-		System.out.println(testCart.printCart());
 		testCart.addItem(pen.getID(), 5);
 		testCart.addItem(notebook.getID(), 1);
-
-		System.out.println(testCart.printCart());
 		testCart.addItem(usb.getID(), 20);
+		System.out.println(testCart.printCart());
+		testCart.changeQuantity(usb.getID(), 100);
 
 		System.out.println(testCart.printCart());
-
-		Order myOrder = testCart.checkout();
-		System.out.println(myOrder.viewInvoice());
+		//if quantity = 0, should remove item
+		testCart.changeQuantity(notebook.getID(), 0);
+		testCart.changeQuantity(pen.getID(), 5);
+		System.out.println(testCart.printCart());
 	}
 }

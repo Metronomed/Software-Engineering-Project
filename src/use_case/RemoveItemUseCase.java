@@ -23,13 +23,13 @@ public class RemoveItemUseCase {
 		System.out.println(usb.printDescriptor());
 		testCart.addItem(pen.getID(), 5);
 		testCart.addItem(notebook.getID(), 1);
+		testCart.addItem(usb.getID(), 20);
+		System.out.println(testCart.printCart());
+		testCart.removeItem(usb.getID());
 
 		System.out.println(testCart.printCart());
-//		testCart.removeItem(usb.getID(), 20);
-
+		testCart.removeItem(notebook.getID());
+		testCart.removeItem(pen.getID());
 		System.out.println(testCart.printCart());
-
-		Order myOrder = testCart.checkout();
-		System.out.println(myOrder.viewInvoice());
 	}
 }
