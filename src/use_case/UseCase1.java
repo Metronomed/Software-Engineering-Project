@@ -13,10 +13,10 @@ public class UseCase1 {
 		//Put items into cart
 		Item item_3 = new Item(3);
 		
-		System.out.print("ID: " + item_3.id);
-        System.out.print(", name: " + item_3.name);
-        System.out.print(", description: " + item_3.description);
-        System.out.println(", price: " + item_3.price);
+		System.out.print("ID: " + item_3.getID());
+        System.out.print(", name: " + item_3.getName());
+        System.out.print(", description: " + item_3.getDescription());
+        System.out.println(", price: " + item_3.getPrice());
         
         User user_1 = new User(1);
         
