@@ -8,13 +8,14 @@ import lib.MysqlConnect;
 public class User {
 	public int id;
 	public String name;
-	private String emailAddress, billingAddress, shippingAddress;
+	private String emailAdd, billingAdd, shippingAdd;
 	private String creditNum;
 
 	public User(int id) throws SQLException {
+		this.id = id;
 		//pull from the database
 		MysqlConnect mc = new MysqlConnect();
-		ResultSet rs = mc.SelectFromId(id, "User");
+		ResultSet rs = mc.selectFromId(id, "User");
 		
 		if (rs.next()){
 	        name = rs.getString("name");
@@ -26,27 +27,27 @@ public class User {
 	}
 
 	public String getEmailAddress() {
-		return emailAddress;
+		return emailAdd;
 	}
 
 	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+		this.emailAdd = emailAddress;
 	}
 
 	public String getBillingAddress() {
-		return billingAddress;
+		return billingAdd;
 	}
 
 	public void setBillingAddress(String billingAddress) {
-		this.billingAddress = billingAddress;
+		this.billingAdd = billingAddress;
 	}
 
 	public String getShippingAddress() {
-		return shippingAddress;
+		return shippingAdd;
 	}
 
 	public void setShippingAddress(String shippingAddress) {
-		this.shippingAddress = shippingAddress;
+		this.shippingAdd = shippingAddress;
 	}
 
 	public String getCreditNum() {

@@ -1,5 +1,6 @@
 package lib;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,9 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class MysqlConnect {
-	Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
+	static Connection conn = null;
+    static Statement stmt = null;
+    static ResultSet rs = null;
     PreparedStatement pst = null;
 	
 	public MysqlConnect(){
@@ -26,7 +27,7 @@ public class MysqlConnect {
 	}
 	
 	
-	public ResultSet SelectFromId(int id, String table){
+	public ResultSet selectFromId(int id, String table){
 		
         String sql;
         sql = "SELECT * FROM "+table+" WHERE id = '" + id +"'";
@@ -39,6 +40,58 @@ public class MysqlConnect {
 		}
         
         return rs;
+	}
+	
+	public boolean insert(Object object) throws Exception{
+		if(object.getClass().getName() == "classes.Cart"){
+			
+			for (Field field : object.getClass().getDeclaredFields()) {
+			    field.setAccessible(true);
+			    String name = field.getName();
+			    Object value = field.get(object);
+			    System.out.printf("Field name: %s, Field value: %s%n", name, value);
+			}
+			
+			return true;
+		}else if(object.getClass().getName() == "classes.Order"){
+			
+			return true;
+		}else{
+			
+			return false;
+		}
+	}
+	
+	public static int insertCart(int userID) throws Exception{
+		PreparedStatement pst = null;
+		pst = conn.prepareStatement("INSERT INTO Cart(userID, content, invoice)" +
+				" VALUES(?, ?, ?)");
+		pst.setInt(1, userID);
+		pst.setString(2, "");
+		pst.setString(3, "");
+		pst.executeUpdate();
+		
+		stmt = conn.createStatement();
+        String sql;
+        sql = "SELECT MAX(id) FROM Cart";
+        rs = stmt.executeQuery(sql);
+        
+        return rs.getInt("id");
+	}
+	
+	public boolean update(Object object) throws Exception{
+		if(object.getClass().getName() == "classes.Cart"){
+			for (Field field : object.getClass().getDeclaredFields()) {
+			    field.setAccessible(true);
+			    String name = field.getName();
+			    Object value = field.get(object);
+			    System.out.printf("Field name: %s, Field value: %s%n", name, value);
+			}
+			return true;
+		}else{
+			//Will not allow to update other tables
+			return false;
+		}
 	}
 	
 	public static void main(String[] args){

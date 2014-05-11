@@ -13,8 +13,9 @@ public class Item {
 	
 	public Item(int id) throws SQLException {
 		//pull from database
+		this.id = id;
 		MysqlConnect mc = new MysqlConnect();
-		ResultSet rs = mc.SelectFromId(id, "Item");
+		ResultSet rs = mc.selectFromId(id, "Item");
         
 		if (rs.next()){
 	        name = rs.getString("name");

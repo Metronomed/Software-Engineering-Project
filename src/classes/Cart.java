@@ -2,20 +2,29 @@ package classes;
 import java.util.Map;
 import java.util.HashMap;
 
+import lib.MysqlConnect;
+
 public class Cart {
-	int ID;
+	public int id;
 	User user;
 	Map<Integer, Integer> contents;
 	Coupon coupon;
-	boolean isCheckedOut;
+	boolean checkedOut;
 	Map<Integer, Double> checkedOutPrices;
 	String invoice;
 
-	public Cart(int userID) {
+	public Cart(int userID) throws Exception {
 		//use database to load user
 		contents = new HashMap<Integer, Integer>();
 		checkedOutPrices = new HashMap<Integer, Double>();
-		isCheckedOut = false;
+		checkedOut = false;
+		
+		this.id = MysqlConnect.insertCart(userID);
+	}
+	
+	private void update(){
+		
+		
 	}
 
 	public boolean addItem(int itemID, int quantity) {
@@ -76,7 +85,7 @@ public class Cart {
 			double itemPrice = 1.0;
 			checkedOutPrices.put(itemID, itemPrice);
 		}
-		isCheckedOut = true;
+		checkedOut = true;
 		return true;
 	}
 
@@ -89,7 +98,7 @@ public class Cart {
 	}
 
 	public String generateInvoice() {
-		if (!isCheckedOut) {
+		if (!checkedOut) {
 			return null;
 		}
 		String invoice = "";

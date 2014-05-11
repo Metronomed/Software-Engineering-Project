@@ -1,12 +1,15 @@
 package use_case;
 import java.sql.SQLException;
 
+import lib.MysqlConnect;
+
 import classes.Item;
 import classes.User;
+import classes.Cart;
 
 
 public class UseCase1 {
-	public static void main(String[] args) throws SQLException{
+	public static void main(String[] args) throws Exception{
 		//Put items into cart
 		Item item_3 = new Item(3);
 		
@@ -22,6 +25,9 @@ public class UseCase1 {
         System.out.print(", Billing Address: " + user_1.getBillingAddress());
         System.out.println(", credit: " + user_1.getCreditNum());
         
-        
+        Cart cart_1 = new Cart(user_1.id);
+        System.out.print("Cart ID: " + cart_1.id);
+//        MysqlConnect mc = new MysqlConnect();
+//        mc.insert(cart_1);
 	}
 }
