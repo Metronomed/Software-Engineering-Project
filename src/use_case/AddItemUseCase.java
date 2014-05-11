@@ -5,8 +5,6 @@ import lib.MysqlConnect;
 
 import classes.*;
 
-
-
 public class AddItemUseCase {
 	public static void main(String[] args) throws Exception { 
 		Item pen = new Item(1);

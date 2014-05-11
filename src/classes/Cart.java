@@ -85,7 +85,7 @@ public class Cart {
 			cost += itemPrice * quantity;
 		}
 		double discount = 1.0;
-		if (coupon != null && coupon.isValid() ) {
+		if (coupon != null) {
 			discount = coupon.getDiscount();
 		}
 		return cost * discount;
@@ -105,7 +105,7 @@ public class Cart {
 	}
 
 	public boolean addCoupon(Coupon tryCoupon) {
-		if (tryCoupon.isValid() ) {
+		if (true) {
 			coupon = tryCoupon;
 			return true;
 		}
