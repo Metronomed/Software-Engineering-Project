@@ -26,6 +26,11 @@ public class Item {
 //        conn.close();
 	}
 
+	public String printDescriptor() {
+		String output = "Name: " + name + "\nDescription: " + description + "\nPrice: $" + Double.toString(price);
+		return output;
+	}
+
 	public double getPrice() {
 		return price;
 	}
