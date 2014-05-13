@@ -15,21 +15,26 @@ public class AddItemUseCase {
 		Item notebook = new Item(6);
 
 		User testUser = new User(2);
+		System.out.println(testUser.getName()+" has logged in the website...");
+		System.out.println();
 
 		Cart testCart = new Cart(2);
+		System.out.println(testUser.getName()+" is browsing the first page of this website");
+		System.out.println();
 
 		System.out.println(pen.printDescriptor());
 		System.out.println(notebook.printDescriptor());
 		System.out.println(usb.printDescriptor());
+		
 		System.out.println(testCart.printCart());
 		
-		System.out.println("Adding an item with quantity");
 		testCart.addItem(pen.getID(), 5);
 		System.out.println(testCart.printCart());
 
 		System.out.println("Adding more items");
 		testCart.addItem(notebook.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
+		testCart.addItem(snowboard.getID(), 1);
 
 		System.out.println(testCart.printCart());
 	}

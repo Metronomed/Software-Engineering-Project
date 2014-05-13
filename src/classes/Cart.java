@@ -47,6 +47,11 @@ public class Cart {
 			}
 			contents.put(itemID, quantity);
 			update();
+			Item item = new Item(itemID);
+			String itemName = item.getName();
+			String itemPrice = priceFormat(item.getPrice());
+			String plurality = quantity==1?" ":"s ";
+			System.out.println(user.getName()+" put "+quantity+" "+itemName+plurality+"@ $"+itemPrice+" in cart.");
 			return true;
 		}
 		catch (Exception e) {
@@ -62,6 +67,8 @@ public class Cart {
 			}
 			contents.remove(itemID);
 			update();
+			Item item = new Item(itemID);
+			String itemName = item.getName();
 			return true;
 		}
 		catch (Exception e) {
@@ -105,6 +112,19 @@ public class Cart {
 		}
 		return cost * discount;
 	}
+	
+	public double calculateTotalWithoutDiscount() throws SQLException{
+		double cost = 0.0;
+		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
+			int itemID = entry.getKey();
+			int quantity = entry.getValue();
+
+			Item currItem = new Item(itemID);
+			double itemPrice = currItem.getPrice();
+			cost += itemPrice * quantity;
+		}
+		return cost;
+	}
 
 	public Order checkout() throws Exception {
 		if (checkedOut) {
@@ -147,7 +167,12 @@ public class Cart {
 			return null;
 		}
 		StringBuffer output = new StringBuffer();
-		output.append("Cart:\n");
+		output.append("\nNow this cart has");
+		if (contents.isEmpty()){
+			output.append(" nothing in it.\n");
+		}else{
+			output.append(":\n");
+		}
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
 			int itemID = entry.getKey();
 			Item currItem = new Item(itemID);
@@ -164,9 +189,17 @@ public class Cart {
 			output.append("\nApplied Coupon: ");
 			output.append(coupon.getCode());
 		}
-		output.append("\nTotal Amount: $");
-		output.append(priceFormat(calculateCost()));
-		output.append("\n");
+		if (!contents.isEmpty()){
+			output.append("\nTotal Amount: $");
+			output.append(priceFormat(calculateCost()));
+			output.append("\n");
+			if (coupon != null){
+				output.append("  WOW! You Just Saved: $");
+				output.append(priceFormat(calculateTotalWithoutDiscount()-calculateCost()));
+				output.append("!");
+				output.append("\n");
+			}
+		}
 		return output.toString();
 	}
 
