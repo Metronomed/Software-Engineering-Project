@@ -1,7 +1,4 @@
 package use_case;
-import java.sql.SQLException;
-
-import lib.MysqlConnect;
 
 import classes.*;
 
@@ -18,17 +15,32 @@ public class AddCouponUseCase {
 
 		Cart testCart = new Cart(2);
 
-		// System.out.println(pen.printDescriptor());
-		// System.out.println(notebook.printDescriptor());
-		// System.out.println(usb.printDescriptor());
-
 		testCart.addItem(pen.getID(), 5);
 		testCart.addItem(notebook.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
 		System.out.println(testCart.printCart());
+		printDivider();
 
 		System.out.println("Trying to add coupon");
 		testCart.addCoupon("DISCOUNT20");
-		System.out.println(testCart.printCart());		
+		System.out.println(testCart.printCart());	
+		printDivider();
+		
+		System.out.println("Trying to add another coupon");
+		testCart.addCoupon("DISCOUNT50");
+		System.out.println(testCart.printCart());	
+		printDivider();
+		
+		System.out.println("This is the true 50% off coupon");
+		testCart.addCoupon("HALFDAY");
+		System.out.println(testCart.printCart());	
+		printDivider();
+		System.out.println();
+		System.out.println("Only one coupon effects.");
+	}
+	
+	public static void printDivider(){
+		System.out.println();
+		System.out.println("===================================");
 	}
 }

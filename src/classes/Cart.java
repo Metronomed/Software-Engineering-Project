@@ -69,6 +69,7 @@ public class Cart {
 			update();
 			Item item = new Item(itemID);
 			String itemName = item.getName();
+			System.out.println(user.getName()+" has removed "+itemName+" from cart.");
 			return true;
 		}
 		catch (Exception e) {
@@ -86,8 +87,11 @@ public class Cart {
 				removeItem(itemID);
 			}
 			else {
-				addItem(itemID, quantity);
+				contents.put(itemID, quantity);
 			}
+			Item item = new Item(itemID);
+			String itemName = item.getName();
+			System.out.println(user.getName()+" changed the quantity of "+itemName+" to "+quantity+".");
 			return true;
 		}
 		catch (Exception e) {
@@ -140,6 +144,7 @@ public class Cart {
 
 		generateInvoice();
 		checkedOut = true;
+		update();
 		return new Order(this);
 	}
 
@@ -159,6 +164,8 @@ public class Cart {
 				return true;
 			}
 		}
+		coupon = null;
+		System.out.println("The coupon is not right.");
 		return false;
 	}
 
@@ -192,12 +199,12 @@ public class Cart {
 		if (!contents.isEmpty()){
 			output.append("\nTotal Amount: $");
 			output.append(priceFormat(calculateCost()));
-			output.append("\n");
+//			output.append("\n");
 			if (coupon != null){
-				output.append("  WOW! You Just Saved: $");
+				output.append("  (You Save: $");
 				output.append(priceFormat(calculateTotalWithoutDiscount()-calculateCost()));
-				output.append("!");
-				output.append("\n");
+				output.append("!)");
+//				output.append("\n");
 			}
 		}
 		return output.toString();
@@ -206,35 +213,61 @@ public class Cart {
 	private void generateInvoice() throws Exception {
 		StringBuffer inv = new StringBuffer();
 		double total = 0.0;
-		inv.append("INVOICE:\n");
-		inv.append("Purchaser: ");
+		inv.append("-----------------------------------------------------------------\n");
+		inv.append("| INVOICE:\t\t\t\t\t\t\t|");
+		inv.append("\n| \t\t\t\t\t\t\t\t|\n");
+		inv.append("| Purchaser: ");
 		inv.append(user.getName());
-		inv.append("\nShipping Address: \n");
-		inv.append(user.getShippingAddress());
-		inv.append("\n\nItems Ordered: \n");
+		inv.append("\t\t\t\t\t\t|");
+		inv.append("\n| Shipping Address: \t\t\t\t\t\t|\n");
+		inv.append("| "+user.getShippingAddress()+"\t\t\t|");
+		inv.append("\n| \t\t\t\t\t\t\t\t|\n");
+		inv.append("| Items Ordered: \t\t\t\t\t\t|\n");
+		int entryCount = 0;
 		for (Map.Entry<Integer, Integer> entry : contents.entrySet()) {
+			entryCount += 1;
 			int itemID = entry.getKey();
 			int quantity = entry.getValue();
 			double itemPrice = checkedOutPrices.get(itemID);
+			StringBuffer inv2 = new StringBuffer();
 			Item currItem = new Item(itemID);
 			total += quantity * itemPrice;
-			inv.append("Item: ");
-			inv.append(currItem.getName());
-			inv.append(", Quantity: ");
-			inv.append(entry.getValue());
-			inv.append(" @ $");
-			inv.append(priceFormat(itemPrice));
-			inv.append("\n");
+			inv2.append("| Item: ");
+			inv2.append(currItem.getName());
+			inv2.append(", Quantity: ");
+			inv2.append(entry.getValue());
+			inv2.append(", Price: $");
+			inv2.append(priceFormat(itemPrice));
+			String inv2String = inv2.toString();
+			int count = inv2String.length()/8;
+			for(int i=1; i<(9-count); i++){
+				inv2.append("\t");
+			}
+			if (entryCount != contents.size()){
+				inv.append(inv2.toString()+"|\n");
+			}else{
+				inv.append(inv2.toString()+"|");
+			}
 		}
+		inv.append("\n| \t\t\t\t\t\t\t\t|\n");
 		if (coupon != null) {
-			inv.append("Applied Coupon: ");
-			inv.append(coupon.getDiscount());
+			inv.append("| Applied Coupon: ");
+			inv.append(coupon.getCode()+"\t\t\t\t\t|");
 		}
-		inv.append("\nTotal Amount: $");
+		inv.append("\n| Total Amount: $");
 		inv.append(priceFormat(getTotalAmount()));
-		inv.append("\n\nBilling Address: \n");
-		inv.append(user.getBillingAddress());
-		inv.append("\n");
+		if (coupon != null){
+			inv.append("  (WOW! You Just Saved: $");
+			inv.append(priceFormat(calculateTotalWithoutDiscount()-calculateCost()));
+			inv.append("!)\t|");
+		}
+		inv.append("\n| \t\t\t\t\t\t\t\t|\n");
+		inv.append("| Billing Address: \t\t\t\t\t\t|\n");
+		inv.append("| "+user.getBillingAddress()+"\t\t\t|\n");
+		inv.append("| \t\t\t\t\t\t\t\t|\n");
+		inv.append("| Card Used: \t\t\t\t\t\t\t|\n");
+		inv.append("| "+user.getCreditNum()+"\t\t\t\t\t\t|\n");
+		inv.append("-----------------------------------------------------------------\n");
 		invoice = inv.toString();
 		update();
 	}

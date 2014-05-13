@@ -18,19 +18,23 @@ public class CheckoutUseCase {
 
 		Cart testCart = new Cart(2);
 
-		// System.out.println(pen.printDescriptor());
-		// System.out.println(notebook.printDescriptor());
-		// System.out.println(usb.printDescriptor());
-
 		testCart.addItem(pen.getID(), 5);
 		testCart.addItem(keyboard.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
+		printDivider();
 
-		System.out.println(testCart.addCoupon("DISCOUNT20 coupon"));
+		System.out.println(testCart.addCoupon("DISCOUNT20"));
 		System.out.println(testCart.printCart());
+		printDivider();
 
-		System.out.println("Go through checkout now\n");
+		System.out.println("System checking out...\n");
 		Order myOrder = testCart.checkout();
 		System.out.println(myOrder.viewInvoice());
+		printDivider();
+	}
+	
+	public static void printDivider(){
+		System.out.println();
+		System.out.println("===================================");
 	}
 }

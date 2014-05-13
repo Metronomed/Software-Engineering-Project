@@ -1,7 +1,5 @@
 package use_case;
-import java.sql.SQLException;
 
-import lib.MysqlConnect;
 
 import classes.*;
 
@@ -24,14 +22,30 @@ public class RemoveItemUseCase {
 		testCart.addItem(pen.getID(), 5);
 		testCart.addItem(notebook.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
+		testCart.addItem(snowboard.getID(), 1);
 		System.out.println(testCart.printCart());
-		System.out.println("Removing USBs");
-		testCart.removeItem(usb.getID());
+		printDivider();
+		
+		System.out.println(testUser.getName()+" feel like he don't need that many of "+usb.getName()+".\n");
+		testCart.changeQuantity(usb.getID(), 10);
+		printDivider();
+		
+		System.out.println("Right now it's summer, there is no reason to buy a "+snowboard.getName()+".\n");
+		testCart.removeItem(snowboard.getID());
+		printDivider();
 
 		System.out.println(testCart.printCart());
+		printDivider();
+		
 		System.out.println("Removing rest of items");
 		testCart.removeItem(notebook.getID());
 		testCart.removeItem(pen.getID());
+		testCart.removeItem(usb.getID());
 		System.out.println(testCart.printCart());
+	}
+	
+	public static void printDivider(){
+		System.out.println();
+		System.out.println("===================================");
 	}
 }
