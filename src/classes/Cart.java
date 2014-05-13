@@ -85,6 +85,7 @@ public class Cart {
 			}
 			if (quantity == 0) {
 				removeItem(itemID);
+				return true;
 			}
 			else {
 				contents.put(itemID, quantity);

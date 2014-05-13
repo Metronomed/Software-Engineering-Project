@@ -16,18 +16,11 @@ public class RemoveItemUseCase {
 
 		Cart testCart = new Cart(2);
 
-		//System.out.println(pen.printDescriptor());
-		//System.out.println(notebook.printDescriptor());
-		//System.out.println(usb.printDescriptor());
 		testCart.addItem(pen.getID(), 5);
 		testCart.addItem(notebook.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
 		testCart.addItem(snowboard.getID(), 1);
 		System.out.println(testCart.printCart());
-		printDivider();
-		
-		System.out.println(testUser.getName()+" feel like he don't need that many of "+usb.getName()+".\n");
-		testCart.changeQuantity(usb.getID(), 10);
 		printDivider();
 		
 		System.out.println("Right now it's summer, there is no reason to buy a "+snowboard.getName()+".\n");

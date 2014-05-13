@@ -18,20 +18,26 @@ public class ChangeQuantityUseCase {
 
 		Cart testCart = new Cart(2);
 
-		//System.out.println(pen.printDescriptor());
-		//System.out.println(notebook.printDescriptor());
-		//System.out.println(usb.printDescriptor());
 		testCart.addItem(pen.getID(), 5);
 		testCart.addItem(notebook.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
 		System.out.println(testCart.printCart());
-		System.out.println("Change USB quantities");
-		testCart.changeQuantity(usb.getID(), 100);
-
+		printDivider();
+		
+		System.out.println(testUser.getName()+" feel like he don't need that many of "+usb.getName()+".\n");
+		testCart.changeQuantity(usb.getID(), 10);
 		System.out.println(testCart.printCart());
+		printDivider();
+
+		
 		System.out.println("Change more quantities (notebook = 0)");
 		testCart.changeQuantity(notebook.getID(), 0);
 		testCart.changeQuantity(pen.getID(), 5);
 		System.out.println(testCart.printCart());
+	}
+	
+	public static void printDivider(){
+		System.out.println();
+		System.out.println("===================================");
 	}
 }
