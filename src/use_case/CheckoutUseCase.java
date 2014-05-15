@@ -20,10 +20,11 @@ public class CheckoutUseCase {
 
 		testCart.addItem(pen.getID(), 5);
 		testCart.addItem(keyboard.getID(), 1);
+		testCart.addItem(snowboard.getID(), 1);
 		testCart.addItem(usb.getID(), 20);
 		printDivider();
 
-		System.out.println(testCart.addCoupon("DISCOUNT20"));
+		testCart.addCoupon("DISCOUNT20");
 		System.out.println(testCart.printCart());
 		printDivider();
 
